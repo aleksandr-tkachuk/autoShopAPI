@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^api/auto.([a-z]{3,4})$ index.php?c=api&a=getAuto&rtype=$1 [L,QSA]
+RewriteRule ^api/auto/([0-9]+).([a-z]{3,4})$ index.php?c=api&a=getAutoById&id=$1&rtype=$2 [L,QSA]
+
+RewriteRule ^api/([a-zA-Z]+).([a-z]{3,4})$ index.php?c=api&a=$1&rtype=$2 [L,QSA]
