@@ -64,6 +64,7 @@ abstract class Models{
 		$sql->execute(array($id));
 		$sqlResult = $sql->fetch(PDO::FETCH_ASSOC);
 		if($array == false) {
+		    //print_r($sqlResult);
             if (sizeof($sqlResult) != 0) {
                 foreach ($sqlResult as $attr => $value) {
                     $this->$attr = $value;

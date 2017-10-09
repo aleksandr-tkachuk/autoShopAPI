@@ -44,7 +44,6 @@ class ApiController extends BaseController
     }
 
     public function getAutoById(){
-
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
         }
