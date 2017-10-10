@@ -25,6 +25,7 @@ class Auto extends Models{
         $listAuto = parent::findAll($params, $orders);
         foreach ($listAuto as $key=>$value){
             $model = AutoModels::model()->find($value['model'], true);
+
             $listAuto[$key]['modelName'] = $model["name"];
         }
         return $listAuto;
@@ -67,12 +68,14 @@ class Auto extends Models{
     public function getList()
     {
         $listAuto = parent::findAll();
+        var_dump($listAuto);
         $result = [];
         foreach ($listAuto as $key=>$value){
             $model = AutoModels::model()->find($value['model'], true);
             $result[] = [
                 'id' => $value['id'],
                 'brand' => $value['brands'],
+                'brand' => $value['brand'],
                 'modelName' => $model["name"],
             ];
         }

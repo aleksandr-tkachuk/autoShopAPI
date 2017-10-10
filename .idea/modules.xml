@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/autoShop.iml" filepath="$PROJECT_DIR$/.idea/autoShop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/autoShopAPI.iml" filepath="$PROJECT_DIR$/.idea/autoShopAPI.iml" />
     </modules>
   </component>
 </project>
