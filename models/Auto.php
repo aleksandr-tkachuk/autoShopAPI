@@ -10,6 +10,7 @@ class Auto extends Models{
     public $kpp;
     public $speed;
     public $price;
+    public $brands;
 
     public function getTableName(){
         return "auto";
@@ -38,6 +39,31 @@ class Auto extends Models{
         return $auto;
     }
 
+    public static function findBrand($brand){
+        $brand = AutoModels::model()->findAll(["name" => $brand]);
+
+        if(sizeof($brand) == 0){
+            return false;
+        }else{
+            $sql = "SELECT models.name as modelName, auto.* 
+                FROM models
+                right join auto on models.id = auto.model
+                WHERE models.id = '".$brand[0]["id"]."'";
+
+            $result = App::$db->select($sql);
+            return $result;
+        }
+        /*
+        $sql = "SELECT models.name as modelName, auto.* 
+                FROM models
+                right join auto on models.id = auto.model
+                WHERE models.name = '".$brand."'";
+       */
+
+        //$result = App::$db->select($sql);
+        //return $result;
+    }
+
     public function getList()
     {
         $listAuto = parent::findAll();
@@ -46,7 +72,7 @@ class Auto extends Models{
             $model = AutoModels::model()->find($value['model'], true);
             $result[] = [
                 'id' => $value['id'],
-                'marka' => "", //$value['marka'],
+                'brand' => $value['brands'],
                 'modelName' => $model["name"],
             ];
         }

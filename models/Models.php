@@ -83,8 +83,7 @@ abstract class Models{
     }
     
     public function save(){
-        $id = $this->getTableName()."_id";
-        if($this->$id != 0){
+        if($this->id != 0){
             $this->update();
         }else{
             $this->insert();
@@ -105,8 +104,8 @@ abstract class Models{
                 $comma++;
             }
         }
-        $id = $this->getTableName()."_id";
-        $sql .= $fields." where ".$this->getTableName()."_id=".$this->$id;
+
+        $sql .= $fields." where id=".$this->id;
         $this->db->sqlQuery($sql);
     }
 
@@ -116,7 +115,7 @@ abstract class Models{
         $values = "";
         $comma = 0;
         foreach ($this as $attr => $value){
-            if($attr != $this->getTableName()."_id" && $attr != "db"){
+            if($attr != "id" && $attr != "db"){
                 if($comma != 0){
                     $fields .= ",";
                     $values .= ",";
@@ -132,10 +131,8 @@ abstract class Models{
     }
     
     public function delit() {
-        $id = $this->getTableName()."_id";
-//        $sql = "DELETE FROM ".$this->getTableName()." WHERE ".$this->getTableName()."_id=".$this->$id;
-		$sql = $this->db->prepare("DELETE FROM ".$this->getTableName()." where ".$this->getTableName()."_id = ?");
-		$sql->execute(array($id));
+		$sql = $this->db->prepare("DELETE FROM ".$this->getTableName()." where id = ?");
+		$sql->execute(array($this->id));
 
 		$result = $this->db->sqlQuery($sql);
            if($result == TRUE){
