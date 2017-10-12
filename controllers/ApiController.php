@@ -205,5 +205,25 @@ class ApiController extends BaseController
             $this->sendResponse(["success" => 1, "message" => "order has been created"]);
         }
     }
+    /*
+     * orderHistory
+     * request type GET
+     * url - api/history
+     * token - require, http parameter token
+     *
+     * return order history
+     */
+    public function orderHistory()
+    {
+        print_r($_SERVER);
+        if($this->getRequestType() !== "GET") {
+            $this->requestError(405);
+        }
+
+        $token = $this->getRequestToken();
+
+        $user = User::model()->findByToken($token);
+        print_r($user);
+    }
 
 }
