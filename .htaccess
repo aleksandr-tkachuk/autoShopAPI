@@ -2,7 +2,7 @@ RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
+RewriteBase /~user13/REST/autoShopAPI/
 # show auto by id
 RewriteRule ^api/auto/([0-9]+)\.([a-z]{3,4})$ index.php?c=api&a=getAutoById&id=$1&rtype=$2 [L,QSA]
 # show auto by brand

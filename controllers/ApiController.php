@@ -18,11 +18,11 @@ class ApiController extends BaseController
     }
 
     /*
-    * get all models
-    * request type GET
-    * url - api/getAllModels
-    * response type - json|xml|txt|html
-    */
+     * get all models
+     * request type GET
+     * url - api/getAllModels
+     * response type - json|xml|txt|html
+     */
     public function getAllModels(){
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
@@ -34,13 +34,13 @@ class ApiController extends BaseController
     }
 
     /*
-    * search auto
-    * request type GET
-    * url - api/search.(response type)?year=(value)
-    * year - require, year of issue
-    * other parameters
-    * response type - json|xml|txt|html
-    */
+     * search auto
+     * request type GET
+     * url - api/search.(response type)?year=(value)
+     * year - require, year of issue
+     * other parameters
+     * response type - json|xml|txt|html
+     */
     public function search(){
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
@@ -59,11 +59,11 @@ class ApiController extends BaseController
     }
 
     /*
-    * get all auto
-    * request type GET
-    * url - api/auto.(response type)
-    * response type - json|xml|txt|html
-    */
+     * get all auto
+     * request type GET
+     * url - api/auto.(response type)
+     * response type - json|xml|txt|html
+     */
     public function getAuto(){
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
@@ -73,11 +73,11 @@ class ApiController extends BaseController
     }
 
     /*
-    * get auto by brands
-    * request type GET
-    * url - api/auto/(auto id).(response type)
-    * response type - json|xml|txt|html
-    */
+     * get auto by brands
+     * request type GET
+     * url - api/auto/(auto id).(response type)
+     * response type - json|xml|txt|html
+     */
     public function getAutoById(){
 
         if($this->getRequestType() !== "GET") {
@@ -225,6 +225,47 @@ class ApiController extends BaseController
         if($user) {
             $orders = Order::model()->findAll(["user" => $user->id]);
             $this->sendResponse(["success" => 1, "data" => $orders]);
+        }else{
+            $this->sendResponse(["success" => 0, "message" => "user not found"]);
+        }
+    }
+    /*
+     * orderHistory
+     * request type DELETE
+     * url - api/deleteOrder
+     * token - require, http parameter token
+     * orderId - require, order id
+     *
+     * return success or error
+     */
+    public function deleteOrder()
+    {
+        if($this->getRequestType() !== "DELETE") {
+            $this->requestError(405);
+        }
+
+        $token = $this->getRequestToken();
+
+        $request = $this->getRequestParams();
+        $requiredParams = ["orderId"];
+        foreach ($requiredParams as $param) {
+            if (!isset($request[$param]) || $request[$param] == '') {
+                $this->sendResponse(["success" => 0, "message" => $param . " parameter is required"]);
+            }
+        }
+
+        $user = User::model()->findByToken($token);
+
+        if($user) {
+            $order = Order::model()->findOrder($user, $request["orderId"]);
+
+            if($order != null) {
+                $order->delit();
+                $this->sendResponse(["success" => 1, "message" => "order has been delete"]);
+            }else{
+                $this->sendResponse(["success" => 0, "message" => "order not found"]);
+            }
+
         }else{
             $this->sendResponse(["success" => 0, "message" => "user not found"]);
         }

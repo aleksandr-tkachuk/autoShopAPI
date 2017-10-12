@@ -11,9 +11,9 @@ $config = [
 		"mysql" => [
 			"driver" => "mysql",
 			"host" => "localhost",
-			"username" => "root",
-			"password" => "123456",
-			"dbname" => "autoShop",
+			"username" => "user13",
+			"password" => "tuser13",
+			"dbname" => "user13",
 			"charset" => "UTF8"
 		],
 	],
