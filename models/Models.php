@@ -50,6 +50,8 @@ abstract class Models{
             }
             $sql .= $order;
         }
+
+        //echo $sql;
         $sqlResult = $this->db->select($sql);
         return $sqlResult;
         
@@ -111,7 +113,7 @@ abstract class Models{
     }
 
     private function insert(){
-        $sql = "insert into `".$this->getTableName()."`";
+        $sql = "insert into ".$this->getTableName();
         $fields = "";
         $values = "";
         $comma = 0;
@@ -127,6 +129,7 @@ abstract class Models{
             }
         }
         $sql = $sql." ($fields) values ($values)";
+        //echo $sql;
         $this->db->sqlQuery($sql);
         $this->id = $this->db->lastId();
     }
@@ -134,11 +137,6 @@ abstract class Models{
     public function delit() {
 		$sql = $this->db->prepare("DELETE FROM ".$this->getTableName()." where id = ?");
 		$sql->execute(array($this->id));
-
-		$result = $this->db->sqlQuery($sql);
-           if($result == TRUE){
-               echo '<h1>удален!</h1>';
-           }
     }
 
     

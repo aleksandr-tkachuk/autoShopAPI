@@ -7,7 +7,5 @@ define("BASE_CONTROLLER", "IndexController");
 include("config/config.php");
 include("libraries/autoloader.php");
 
-
-
 $app = new App($config);
 $app->start();

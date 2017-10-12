@@ -9,11 +9,13 @@ class Order extends Models{
 
 
     public function getTableName(){
-        return "order";
+        return "`order`";
     }
     
     public static function model($className = __CLASS__){
         return parent::model($className);
     }
+
+
     
 }

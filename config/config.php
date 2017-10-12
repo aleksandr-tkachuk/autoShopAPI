@@ -16,5 +16,8 @@ $config = [
 			"dbname" => "autoShop",
 			"charset" => "UTF8"
 		],
-	]
+	],
+    "api" => [
+        "defaultResponseFormat" => "json"
+    ]
 ];

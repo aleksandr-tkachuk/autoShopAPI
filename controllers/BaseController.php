@@ -33,6 +33,8 @@ abstract class BaseController
     {
         if (isset($_REQUEST["rtype"])) {
             $type = $_REQUEST["rtype"];
+        }else{
+            $type = App::getConfigParams("api")["defaultResponseFormat"];
         }
         switch ($type) {
             case 'json';

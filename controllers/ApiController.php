@@ -170,7 +170,7 @@ class ApiController extends BaseController
 
     /*
      * order
-     * request type POST
+     * request type PUT
      * url - api/order
      * token - require, http parameter token
      * auto - require, auto id
@@ -179,7 +179,7 @@ class ApiController extends BaseController
      */
     public function order()
     {
-        if ($this->getRequestType() !== "POST") {
+        if ($this->getRequestType() !== "PUT") {
             $this->requestError(405);
         }
 
@@ -215,7 +215,6 @@ class ApiController extends BaseController
      */
     public function orderHistory()
     {
-        print_r($_SERVER);
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
         }
@@ -223,7 +222,14 @@ class ApiController extends BaseController
         $token = $this->getRequestToken();
 
         $user = User::model()->findByToken($token);
-        print_r($user);
+        if($user) {
+            $orders = Order::model()->findAll(["user" => $user->id]);
+            $this->sendResponse(["success" => 1, "data" => $orders]);
+        }else{
+            $this->sendResponse(["success" => 0, "message" => "user not found"]);
+        }
     }
+
+
 
 }
