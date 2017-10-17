@@ -153,7 +153,7 @@ class ApiController extends BaseController
 
             $newUser->login = $request["login"];
             $newUser->password = md5($request["password"]);
-            $newUser->name = isset($request["name"])?'':$request["name"];
+            $newUser->name = array_key_exists("name", $request)?$request["name"]:'';
             $newUser->token = $token;
             $newUser->save();
         }else{
@@ -216,6 +216,7 @@ class ApiController extends BaseController
      */
     public function orderHistory()
     {
+        $this->cors();
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
         }
@@ -224,7 +225,7 @@ class ApiController extends BaseController
 
         $user = User::model()->findByToken($token);
         if($user) {
-            $orders = Order::model()->findAll(["user" => $user->id]);
+            $orders = Order::model()->findAll();
             $this->sendResponse(["success" => 1, "data" => $orders]);
         }else{
             $this->sendResponse(["success" => 0, "message" => "user not found"]);
