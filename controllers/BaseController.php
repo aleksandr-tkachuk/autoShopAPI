@@ -22,6 +22,10 @@ abstract class BaseController
 
     protected function getRequestParams()
     {
+        if(strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== -1) {
+            return (array) json_decode(file_get_contents('php://input'));
+        }
+
         $params = $_REQUEST;
         unset($params["c"]);
         unset($params["a"]);
@@ -122,5 +126,15 @@ abstract class BaseController
     protected function getRequestType()
     {
         return $_SERVER["REQUEST_METHOD"];
+    }
+
+    protected function cors() {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS, DELETE, PATCH');
+        header("Access-Control-Max-Age: 3600");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        header("Access-Control-Expose-Headers: Location");
+
+        if($this->getRequestType() === "OPTIONS") exit;
     }
 }

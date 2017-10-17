@@ -133,6 +133,7 @@ class ApiController extends BaseController
      */
 
     public function auth(){
+        $this->cors();
         if($this->getRequestType() !== "POST") {
             $this->requestError(405);
         }
@@ -152,7 +153,7 @@ class ApiController extends BaseController
 
             $newUser->login = $request["login"];
             $newUser->password = md5($request["password"]);
-            $newUser->name = $request["name"];
+            $newUser->name = isset($request["name"])?'':$request["name"];
             $newUser->token = $token;
             $newUser->save();
         }else{
