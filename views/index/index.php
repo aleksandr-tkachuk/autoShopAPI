@@ -10,6 +10,7 @@
 </div>
 
 </body>
+
 <script>
     var app = new Vue({
         el: '#app',
