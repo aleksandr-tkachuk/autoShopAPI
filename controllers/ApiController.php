@@ -140,7 +140,7 @@ class ApiController extends BaseController
         $request = $this->getRequestParams();
         $requiredParams = ["login", "password"];
         foreach($requiredParams as $param){
-            if(!isset($request[$param]) || $request[$param] == '' ){
+            if(empty($request[$param])){
                 $this->sendResponse(["success" => 0, "message" => $param." parameter is required"]);
             }
         }
@@ -153,7 +153,7 @@ class ApiController extends BaseController
 
             $newUser->login = $request["login"];
             $newUser->password = md5($request["password"]);
-            $newUser->name = isset($request["name"])?'':$request["name"];
+            $newUser->name = array_key_exists("name", $request)?$request["name"]:'';
             $newUser->token = $token;
             $newUser->save();
         }else{
@@ -216,13 +216,14 @@ class ApiController extends BaseController
      */
     public function orderHistory()
     {
+        $this->cors();
         if($this->getRequestType() !== "GET") {
             $this->requestError(405);
         }
 
         $token = $this->getRequestToken();
-
         $user = User::model()->findByToken($token);
+
         if($user) {
             $orders = Order::model()->findAll(["user" => $user->id]);
             $this->sendResponse(["success" => 1, "data" => $orders]);
