@@ -226,6 +226,13 @@ class ApiController extends BaseController
 
         if($user) {
             $orders = Order::model()->findAll(["user" => $user->id]);
+            foreach ($orders as $k => $v){
+                $user = User::model()->find($v["user"]);
+                $orders[$k]["userName"] = $user->login;
+                $auto = Auto::findById($v["auto"]);
+                $orders[$k]["autoModel"] = $auto["modelName"];
+                $orders[$k]["autoBrand"] = $auto["brands"];
+            }
             $this->sendResponse(["success" => 1, "data" => $orders]);
         }else{
             $this->sendResponse(["success" => 0, "message" => "user not found"]);

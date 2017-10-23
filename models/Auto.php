@@ -31,9 +31,9 @@ class Auto extends Models{
         return $listAuto;
     }
 
-    public function findById($id)
+    public static function findById($id)
     {
-        $auto = parent::model()->find($id, true);
+        $auto = self::model()->find($id, true);
         $model = AutoModels::model()->find($auto['model'], true);
         $auto['modelName'] = $model["name"];
 
